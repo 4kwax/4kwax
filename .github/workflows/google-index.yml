@@ -1,11 +1,7 @@
-name: Google Indexing API
+name: Manual Google Indexing API
+
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - '_posts/**'
-  workflow_dispatch:
+  workflow_dispatch: # सिर्फ मैन्युअल क्लिक करने पर ही चलेगा
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -32,50 +28,69 @@ jobs:
       - name: Run Indexing Script
         run: |
           cat << 'EOF' > index.js
+          const fs = require('fs');
           const { google } = require('googleapis');
           const key = require('./credentials.json');
 
-          const jwtClient = new google.auth.JWT(
-            key.client_email,
-            null,
-            key.private_key,
-            ['https://www.googleapis.com/auth/indexing'],
-            null
-          );
+          async function runIndexing() {
+            const baseUrl = "https://4kwax.github.io";
+            const postsDir = './_posts';
+            let urlsToIndex = [baseUrl + '/']; // होमपेज हमेशा इंडेक्स होगा
 
-          jwtClient.authorize((err, tokens) => {
-            if (err) {
-              console.log('Auth Error:', err);
-              return;
-            }
-            
-            const indexing = google.indexing({
-              version: 'v3',
-              auth: jwtClient
-            });
+            // आज की तारीख निकालें (YYYY-MM-DD फॉर्मेट में)
+            const today = new Date().toISOString().split('T')[0];
+            console.log(`Today's Date: ${today}`);
 
-            const urlsToIndex = [
-              'https://4kwall.github.io/'
-            ];
-
-            urlsToIndex.forEach(url => {
-              indexing.urlNotifications.publish({
-                requestBody: {
-                  url: url,
-                  type: 'URL_UPDATED'
-                }
-              }, (err, res) => {
-                if (err) {
-                  console.log('Indexing Error for', url, ':', err.message);
-                } else {
-                  console.log('Success! URL Indexed:', url);
+            if (fs.existsSync(postsDir)) {
+              fs.readdirSync(postsDir).forEach(file => {
+                if (file.endsWith('.md') || file.endsWith('.markdown')) {
+                  const fileDate = file.substring(0, 10);
+                  
+                  // अगर फाइल की तारीख आज या उससे पहले की है, तभी उसे इंडेक्स लिस्ट में डालें
+                  if (fileDate <= today) {
+                    const slug = file.replace(fileDate + '-', '').replace('.md', '').replace('.markdown', '');
+                    urlsToIndex.push(`${baseUrl}/${slug}/`);
+                  } else {
+                    console.log(`[SKIPPED] Future post bypassed: ${file}`);
+                  }
                 }
               });
+            }
+
+            if (urlsToIndex.length === 1) {
+              console.log('No new posts found for today or earlier. Only indexing homepage.');
+            }
+
+            console.log(`Total URLs to index: ${urlsToIndex.length}`);
+
+            const jwtClient = new google.auth.JWT(
+              key.client_email, null, key.private_key,
+              ['https://www.googleapis.com/auth/indexing'], null
+            );
+
+            jwtClient.authorize(async (err, tokens) => {
+              if (err) { console.log('[ERROR] Auth failed:', err); return; }
+              const indexing = google.indexing({ version: 'v3', auth: jwtClient });
+
+              for (const url of urlsToIndex) {
+                try {
+                  await indexing.urlNotifications.publish({
+                    requestBody: { url: url, type: 'URL_UPDATED' }
+                  });
+                  console.log(`[SUCCESS] Indexed -> ${url}`);
+                } catch (e) {
+                  console.log(`[ERROR] Failed -> ${url} | Message: ${e.message}`);
+                }
+                // गूगल API को ब्लॉक करने से रोकने के लिए 2 सेकंड का गैप
+                await new Promise(r => setTimeout(r, 2000));
+              }
+              console.log('--- Indexing Process Completed ---');
             });
-          });
+          }
+          runIndexing();
           EOF
           node index.js
 
       - name: Push to IndexNow
         run: |
-          curl -k "https://www.bing.com/indexnow?url=https://4kwall.github.io/&key=7aa154a839ea4d27b7daeb0ac43e1592&keyLocation=https://4kwall.github.io/7aa154a839ea4d27b7daeb0ac43e1592.txt"
+          curl -k "https://www.bing.com/indexnow?url=https://4kwax.github.io/&key=7aa154a839ea4d27b7daeb0ac43e1592&keyLocation=https://4kwax.github.io/7aa154a839ea4d27b7daeb0ac43e1592.txt"
