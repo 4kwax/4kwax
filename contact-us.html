@@ -7,7 +7,7 @@ permalink: /contact-us/
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
     <title>Contact Us | 4kwax</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -39,69 +39,71 @@ permalink: /contact-us/
             display: flex; 
             flex-direction: column; 
             min-height: 100vh; 
+            overflow-x: hidden; /* पेज को दाएँ-बाएँ हिलने से रोकेगा */
         }
 
         /* हेडर सेटिंग */
         .header { 
             background: #111; 
             color: #fff; 
-            padding: 20px; 
+            padding: 15px; 
             text-align: center; 
             width: 100%;
         }
         .header a { 
             color: #fff; 
             text-decoration: none; 
-            font-size: 22px; 
+            font-size: 20px; 
             font-weight: 700; 
             letter-spacing: 1px; 
         }
 
-        /* मेन कंटेनर (इसे बीच में रखने के लिए) */
+        /* मेन कंटेनर */
         .main-wrapper {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            padding: 40px 15px;
+            padding: 20px 15px;
         }
 
         .container { 
             width: 100%; 
             max-width: 700px; 
             background: white; 
-            padding: 30px; 
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            padding: 25px; 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05); 
             border-radius: 12px; 
         } 
         
         h1 { 
             text-align: center; 
             color: #111; 
-            font-size: 32px; 
+            font-size: 28px; 
             margin-top: 0;
-            margin-bottom: 20px; 
+            margin-bottom: 15px; 
         }
 
         .notice-box {
             background: #fff3cd; 
-            padding: 20px; 
-            border-left: 6px solid #ffc107; 
-            margin: 25px 0; 
+            padding: 15px; 
+            border-left: 5px solid #ffc107; 
+            margin: 20px 0; 
             border-radius: 4px;
-            font-size: 15px;
+            font-size: 14px;
         }
 
         .form-box {
             background: #fcfcfc; 
-            padding: 25px; 
+            padding: 20px; 
             border-radius: 10px; 
             border: 1px solid #e0e0e0; 
-            margin-top: 30px;
+            margin-top: 25px;
         }
 
-        label { font-weight: 600; display: block; margin-bottom: 8px; }
+        label { font-weight: 600; display: block; margin-bottom: 8px; font-size: 15px; }
 
+        /* फॉर्म में जूम रोकने के लिए font-size 16px बहुत जरूरी है */
         input, textarea {
             width: 100%; 
             margin-bottom: 20px; 
@@ -109,6 +111,7 @@ permalink: /contact-us/
             border: 1px solid #ddd; 
             border-radius: 6px;
             font-family: inherit;
+            font-size: 16px !important; /* जूम रोकने का कोड */
         }
 
         button {
@@ -129,7 +132,7 @@ permalink: /contact-us/
         .site-footer { 
             background: #111; 
             color: #fff; 
-            padding: 25px 0; 
+            padding: 20px 0; 
             text-align: center; 
             width: 100%; 
         }
@@ -138,7 +141,7 @@ permalink: /contact-us/
             display: flex; 
             justify-content: center; 
             flex-wrap: wrap; 
-            gap: 20px; 
+            gap: 15px; 
         }
         .footer-links a { 
             color: #bbb; 
