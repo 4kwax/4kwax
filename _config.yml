@@ -1,0 +1,22 @@
+# थीम की सेटिंग
+remote_theme: b2a3e8/type-on-strap
+
+# आपकी जानकारी
+title: "4KWAX - Premium Wallpapers"
+description: "Global Hot Topics and 4K Full Screen Wallpapers"
+url: "https://4kwax.github.io"
+
+# प्लगइन्स (Sitemap अपने आप बनेगा)
+plugins:
+  - jekyll-sitemap
+  - jekyll-paginate
+  - jekyll-feed
+
+# होमपेज पर कितनी पोस्ट दिखेंगी
+paginate: 10
+paginate_path: "/page:num/"
+
+# दिखावट (Dark Mode)
+theme_config:
+  appearance: "dark"
+  back_to_top: true
