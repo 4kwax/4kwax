@@ -1,0 +1,81 @@
+name: Google Indexing API
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '_posts/**'
+  workflow_dispatch:
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+
+      - name: Install googleapis
+        run: npm install googleapis
+
+      - name: Create credentials file
+        run: |
+          echo '${{ secrets.GOOGLE_INDEXING_CREDENTIALS }}' > credentials.json
+
+      - name: Run Indexing Script
+        run: |
+          cat << 'EOF' > index.js
+          const { google } = require('googleapis');
+          const key = require('./credentials.json');
+
+          const jwtClient = new google.auth.JWT(
+            key.client_email,
+            null,
+            key.private_key,
+            ['https://www.googleapis.com/auth/indexing'],
+            null
+          );
+
+          jwtClient.authorize((err, tokens) => {
+            if (err) {
+              console.log('Auth Error:', err);
+              return;
+            }
+            
+            const indexing = google.indexing({
+              version: 'v3',
+              auth: jwtClient
+            });
+
+            const urlsToIndex = [
+              'https://4kwall.github.io/'
+            ];
+
+            urlsToIndex.forEach(url => {
+              indexing.urlNotifications.publish({
+                requestBody: {
+                  url: url,
+                  type: 'URL_UPDATED'
+                }
+              }, (err, res) => {
+                if (err) {
+                  console.log('Indexing Error for', url, ':', err.message);
+                } else {
+                  console.log('Success! URL Indexed:', url);
+                }
+              });
+            });
+          });
+          EOF
+          node index.js
+
+      - name: Push to IndexNow
+        run: |
+          curl -k "https://www.bing.com/indexnow?url=https://4kwall.github.io/&key=7aa154a839ea4d27b7daeb0ac43e1592&keyLocation=https://4kwall.github.io/7aa154a839ea4d27b7daeb0ac43e1592.txt"
