@@ -1,0 +1,52 @@
+---
+layout: default
+---
+<article class="post-content">
+  <h1>{{ page.title }}</h1>
+  
+  <div class="main-photo-area">
+    {{ content }}
+  </div>
+
+  <hr>
+
+  <div class="recent-posts-section">
+    <h3>ताजा वॉलपेपर (Recent Posts)</h3>
+    <div class="recent-grid">
+      {% for post in site.posts limit:5 %}
+        <div class="recent-item">
+          <a href="{{ post.url }}">
+            <img src="{{ post.feature-img }}" alt="{{ post.title }}" style="width:100px; height:70px; object-fit:cover; border-radius:5px;">
+            <p>{{ post.title }}</p>
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</article>
+
+<style>
+  /* फोटो को फुल स्क्रीन बनाने के लिए */
+  .main-photo-area img {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    max-width: none;
+    display: block;
+  }
+  
+  /* रीसेंट पोस्ट की सजावट */
+  .recent-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+  .recent-item {
+    width: 120px;
+    text-align: center;
+    font-size: 12px;
+  }
+</style>
