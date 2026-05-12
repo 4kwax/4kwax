@@ -4,51 +4,131 @@ layout: null
 <!DOCTYPE html>
 <html lang="hi">
 <head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NVX2P9QV50"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-NVX2P9QV50');
+    </script>
+    
+    <meta name="google-site-verification" content="KpDF1wmNcLB607VvosWVJif1Dy6s8-QtVqGCDV2CKBE" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} - 4K Wallpapers</title>
+    <title>{{ site.title }}</title>
     
-    <script>var d="4kwax.github.io";if(window.location.hostname!==d&&window.location.hostname!=="localhost"){document.body.innerHTML="<h1 style='color:red;text-align:center;margin-top:20%'>Access Denied!</h1>"}else{document.addEventListener("contextmenu",function(e){if(e.target.tagName!=="IMG"){e.preventDefault()}});document.onkeydown=function(e){if(e.ctrlKey&&(e.keyCode===85||e.keyCode===83||e.keyCode===67||e.keyCode===73||e.keyCode===86)){return false}}}</script>
-    
+    <meta name="description" content="{{ site.description }}">
+    <link rel="icon" type="image/png" href="/favicon.png">
+
     <style>
-        body { font-family: sans-serif; margin: 0; padding: 0; background: #000; color: #fff; text-align: center; }
-        .top-bar { background: #111; padding: 15px; }
-        .top-bar a { color: #fff; text-decoration: none; font-size: 18px; font-weight: bold; border: 1px solid #fff; padding: 5px 15px; border-radius: 5px; }
-        .top-bar a:hover { background: #fff; color: #000; }
-        .content-box { max-width: 1000px; margin: auto; padding: 20px; }
-        h1 { font-size: 24px; margin-bottom: 20px; }
-        
-        /* Photo design - Yaha koi block nahi hai, log press karke save kar lenge */
-        .image-container img { 
-            max-width: 100%; 
-            height: auto; 
-            border-radius: 8px; 
-            box-shadow: 0 4px 15px rgba(255,255,255,0.1); 
+        body { font-family: sans-serif; margin: 0; padding: 0; background: #f8f9fa; color: #333; display: flex; flex-direction: column; min-height: 100vh; }
+        .header { background: #111; color: #fff; padding: 5px; text-align: center; }
+        .header h1 { margin: 0; font-size: 20px; font-weight: bold; padding: 5px 0; }
+        .container { max-width: 1100px; margin: auto; padding: 20px; flex: 1; width: 100%; box-sizing: border-box; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; }
+        .card:hover { transform: scale(1.02); }
+        .card img { width: 100%; height: 250px; object-fit: cover; display: block; background: #eee; }
+        .card h3 { padding: 15px; margin: 0; font-size: 16px; text-align: center; font-weight: bold; height: 50px; overflow: hidden; }
+        a { text-decoration: none; color: #333; }
+        .section-title { font-size: 22px; font-weight: bold; margin-bottom: 20px; border-bottom: 3px solid #007bff; display: inline-block; padding-bottom: 5px; }
+        .pagination { text-align: center; margin: 40px 0 20px; font-weight: bold; }
+        .pagination a, .pagination span { padding: 8px 14px; margin: 0 4px; border: 1px solid #111; text-decoration: none; color: #111; border-radius: 5px; display: inline-block; }
+        .pagination .active { background: #111; color: #fff; }
+        .pagination a:hover { background: #ff69b4; color: #fff; border-color: #ff69b4; }
+        .pagination .disabled { color: #ccc; border-color: #ccc; }
+        .site-footer { background: #111; color: #fff; padding: 10px 0; text-align: center; margin-top: auto; width: 100%; }
+        .footer-links { margin-bottom: 5px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
+        .footer-links a { color: #bbb; text-decoration: none; font-size: 13px; transition: 0.3s; }
+        .footer-links a:hover { color: #ff69b4; }
+        .footer-copyright { font-size: 11px; color: #888; }
+        @media (max-width: 600px) { 
+            .footer-links a { font-size: 11px; } 
+            .pagination a, .pagination span { padding: 6px 10px; margin: 0 2px; font-size: 14px; }
         }
     </style>
 </head>
 <body>
-    <div class="top-bar">
-        <a href="{{ '/' | relative_url }}">Back to Home</a>
-    </div>
-    
-    <div class="content-box">
-        <h1>{{ page.title }}</h1>
-        
-        {% assign content_parts = content | split: '<img' %}
-        {% if content_parts.size > 1 %}
-            {% assign src_part = content_parts[1] | split: 'src="' %}
-            {% if src_part.size <= 1 %}{% assign src_part = content_parts[1] | split: "src='" %}{% endif %}
-            {% assign final_img = src_part[1] | split: '"' | first | split: "'" | first %}
-            
-            <div class="image-container">
-                <img src="{{ final_img }}" alt="{{ page.title }}">
+    <div class="header"><h1>{{ site.title }}</h1></div>
+    <div class="container">
+        <div class="section-title">Latest Wallpapers</div>
+        <div class="grid">
+            {% for post in paginator.posts %}
+            <div class="card">
+                <a href="{{ post.url | relative_url }}">
+                    {% assign content_parts = post.content | split: '<img' %}
+                    {% if content_parts.size > 1 %}
+                        {% assign src_part = content_parts[1] | split: 'src="' %}
+                        {% if src_part.size <= 1 %}{% assign src_part = content_parts[1] | split: "src='" %}{% endif %}
+                        {% assign final_img = src_part[1] | split: '"' | first | split: "'" | first %}
+                        
+                        {% assign alt_part = content_parts[1] | split: 'alt="' %}
+                        {% if alt_part.size <= 1 %}{% assign alt_part = content_parts[1] | split: "alt='" %}{% endif %}
+                        {% assign auto_title = alt_part[1] | split: '"' | first | split: "'" | first %}
+                    {% endif %}
+                    
+                    <img src="{{ final_img }}" alt="{{ auto_title | default: post.title }}">
+                    <h3>{% if post.title and post.title != "" %}{{ post.title }}{% else %}{{ auto_title | default: "Beautiful Wallpaper" }}{% endif %}</h3>
+                </a>
             </div>
-        {% else %}
-            <div class="image-container">
-                {{ content }}
-            </div>
+            {% endfor %}
+        </div>
+
+        {% if paginator.total_pages > 1 %}
+        <div class="pagination">
+            {% if paginator.previous_page %}
+            <a href="{{ paginator.previous_page_path | relative_url }}">&laquo; Prev</a>
+            {% else %}
+            <span class="disabled">&laquo; Prev</span>
+            {% endif %}
+
+            {% for page in (1..paginator.total_pages) %}
+                {% if page == paginator.page %}
+                    <span class="active">{{ page }}</span>
+                {% elsif page == 1 %}
+                    <a href="{{ '/' | relative_url }}">{{ page }}</a>
+                {% else %}
+                    <a href="{{ site.paginate_path | relative_url | replace: ':num', page }}">{{ page }}</a>
+                {% endif %}
+            {% endfor %}
+
+            {% if paginator.next_page %}
+            <a href="{{ paginator.next_page_path | relative_url }}">Next &raquo;</a>
+            {% else %}
+            <span class="disabled">Next &raquo;</span>
+            {% endif %}
+        </div>
         {% endif %}
     </div>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="/disclaimer">Disclaimer</a>
+            <a href="/contact-us">Contact Us</a>
+            <a href="/terms-and-conditions">Terms & Conditions</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+        </div>
+        <div class="footer-copyright">
+            &copy; 2026 {{ site.title }}. AI Art Collection.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var domain = "4kwax.github.io";
+            if (window.location.hostname !== domain && window.location.hostname !== "localhost") {
+                document.body.innerHTML = "<h1 style='color:red;text-align:center;margin-top:20vh;'>Access Denied!</h1>";
+            } else {
+                document.addEventListener("contextmenu", function(e) {
+                    if (e.target.tagName !== "IMG") { e.preventDefault(); }
+                });
+                document.onkeydown = function(e) {
+                    if (e.ctrlKey && (e.keyCode === 85 || e.keyCode === 83 || e.keyCode === 67 || e.keyCode === 73 || e.keyCode === 86)) {
+                        return false;
+                    }
+                };
+            }
+        });
+    </script>
 </body>
 </html>
