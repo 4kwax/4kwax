@@ -48,6 +48,12 @@ layout: null
         .footer-links a:hover { color: #007bff; }
         .footer-copyright { font-size: 11px; color: #888; margin-top: 5px; }
 
+        /* मोबाइल पर फुटर को एक लाइन में करने का कोड */
+        @media (max-width: 600px) {
+            .footer-links { gap: 8px; flex-wrap: nowrap; white-space: nowrap; }
+            .footer-links a { font-size: 11px; }
+        }
+
         @media (min-width: 768px) {
             .post-content h1 { font-size: 32px; }
         }
