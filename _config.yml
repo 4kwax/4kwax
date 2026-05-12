@@ -6,6 +6,9 @@ title: "4KWAX - Premium Wallpapers"
 description: "Global Hot Topics and 4K Full Screen Wallpapers"
 url: "https://4kwax.github.io"
 
+# लोगो (Favicon) सेट करने का कोड
+favicon: "/favicon.png"
+
 # प्लगइन्स (Sitemap अपने आप बनेगा)
 plugins:
   - jekyll-sitemap
