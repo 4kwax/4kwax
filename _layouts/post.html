@@ -20,24 +20,23 @@ layout: null
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
-        /* 1. सिलेक्शन रोकने का सबसे पावरफुल कोड */
+        /* सिलेक्शन रोकने का सबसे पावरफुल कोड */
         * {
-            -webkit-user-select: none !important; /* Safari/Chrome मोबाइल के लिए */
-            -moz-user-select: none !important;    /* Firefox के लिए */
-            -ms-user-select: none !important;     /* IE के लिए */
-            user-select: none !important;         /* स्टैंडर्ड */
-            -webkit-touch-callout: none !important; /* मोबाइल पर टैप दबाने पर मेनू नहीं खुलेगा */
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            user-select: none !important;
+            -webkit-touch-callout: none !important;
         }
 
-        /* 2. फोटो को छूट दें ताकि लोग उसे डाउनलोड कर सकें */
+        /* फोटो को छूट दें ताकि लोग उसे डाउनलोड कर सकें */
         img {
             -webkit-user-select: auto !important;
             user-select: auto !important;
-            -webkit-touch-callout: default !important; /* फोटो पर लॉन्ग प्रेस काम करेगा */
+            -webkit-touch-callout: default !important;
             pointer-events: auto !important;
         }
 
-        /* आपका बाकी का डिजाइन (CSS) */
         body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background: #f8f9fa; color: #333; line-height: 1.5; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
         .header { background: #111; color: #fff; padding: 15px; text-align: center; }
         .header a { color: #fff; text-decoration: none; font-size: 20px; font-weight: bold; letter-spacing: 1px; }
@@ -46,12 +45,35 @@ layout: null
         .post-content h1 { text-align: center; margin: 0; padding: 30px 15px; color: #111; font-size: 24px; font-weight: 700; }
         .main-body { padding: 0px 15px 20px 15px; font-size: 16px; max-width: 800px; margin: auto; }
         .main-body > p:first-child, .main-body > br:first-child { display: none !important; }
-        .post-content img { width: 100vw !important; max-width: 100vw !important; height: auto !important; display: block !important; margin-left: calc(-50vw + 50%) !important; margin-right: calc(-50vw + 50%) !important; padding: 0 !important; border-radius: 0 !important; aspect-ratio: 9 / 16; background: #eee; }
+
+        /* फोटो की बेसिक स्टाइल और झटके रोकने का कोड */
+        .main-body img { 
+            width: 100vw !important; 
+            max-width: 100vw !important; 
+            height: auto !important; 
+            display: block !important; 
+            margin-left: calc(-50vw + 50%) !important; 
+            margin-right: calc(-50vw + 50%) !important; 
+            padding: 0 !important; 
+            border-radius: 0 !important; 
+            background: #eee; /* यह फोटो लोड होने से पहले जगह घेर कर रखेगा */
+        }
+        
+        /* पहली फोटो के लिए जगह (16:9) */
+        .main-body .bediya-img {
+            aspect-ratio: 16 / 9 !important;
+        }
+        
+        /* बाकी नीचे की फोटो के लिए जगह (9:16) */
+        .main-body .khada-img {
+            aspect-ratio: 9 / 16 !important;
+        }
+
         .recent-area { padding: 20px; max-width: 1200px; margin: auto; }
         .recent-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; border-left: 5px solid #007bff; padding-left: 10px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; }
-        .card img { width: 100%; height: 200px; object-fit: cover; display: block; }
+        .card img { width: 100%; height: 200px; object-fit: cover; display: block; aspect-ratio: auto !important; background: #eee; }
         .card h3 { padding: 15px; margin: 0; font-size: 16px; text-align: center; font-weight: 600; }
         .site-footer { background: #111; color: #fff; padding: 12px 0; text-align: center; margin-top: auto; width: 100%; }
         .footer-links { margin-bottom: 5px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
@@ -69,7 +91,8 @@ layout: null
             <h1>{{ page.title }}</h1>
             
             <div class="main-body">
-                {{ content | replace_first: '<img', '<img fetchpriority="high"' }}
+                {% assign optimized_content = content | replace: '<img', '<img loading="lazy" class="khada-img"' %}
+                {{ optimized_content | replace_first: '<img loading="lazy" class="khada-img"', '<img fetchpriority="high" loading="eager" class="bediya-img"' }}
             </div>
 
         </article>
