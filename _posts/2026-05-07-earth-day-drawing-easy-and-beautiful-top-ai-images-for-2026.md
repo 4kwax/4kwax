@@ -19,7 +19,7 @@ to share online with their communities.<o:p></o:p></p><p data-path-to-node="10">
 comes to nature conservation and wildlife protection. Let us explore the most
 amazing art concepts and ideas for this very special global occasion. Creating
 or simply finding an earth day drawing easy and beautiful does not have to be a
-complicated process at all. Simple, clean designs very often carry the most
+complicated process at all. Simple,  clean designs very often carry the most
 profound and touching messages about protecting our shared home and its
 resources.</p>
 
