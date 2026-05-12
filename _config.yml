@@ -1,8 +1,9 @@
-remote_theme: b2a3e8/type-on-strap
+# थीम का सही रास्ता (Branch के साथ)
+remote_theme: b2a3e8/type-on-strap@master
 
 title: "4K AI Wallpapers"
 description: "Explore the best 4K AI Wallpapers and backgrounds. Discover a beautiful gallery of high-quality, 100% AI-generated images and informative art for mobile and desktop."
-url: "https://4kwall.pages.dev"
+url: "https://4kwax.github.io" # यहाँ आपका नया छोटा URL डाल दिया है
 baseurl: ""
 timezone: Asia/Kolkata
 
