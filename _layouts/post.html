@@ -17,10 +17,27 @@ layout: null
     <meta property="og:type" content="article">
 
     <link rel="icon" type="image/png" href="/favicon.png">
-    
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* 1. सिलेक्शन रोकने का सबसे पावरफुल कोड */
+        * {
+            -webkit-user-select: none !important; /* Safari/Chrome मोबाइल के लिए */
+            -moz-user-select: none !important;    /* Firefox के लिए */
+            -ms-user-select: none !important;     /* IE के लिए */
+            user-select: none !important;         /* स्टैंडर्ड */
+            -webkit-touch-callout: none !important; /* मोबाइल पर टैप दबाने पर मेनू नहीं खुलेगा */
+        }
+
+        /* 2. फोटो को छूट दें ताकि लोग उसे डाउनलोड कर सकें */
+        img {
+            -webkit-user-select: auto !important;
+            user-select: auto !important;
+            -webkit-touch-callout: default !important; /* फोटो पर लॉन्ग प्रेस काम करेगा */
+            pointer-events: auto !important;
+        }
+
+        /* आपका बाकी का डिजाइन (CSS) */
         body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background: #f8f9fa; color: #333; line-height: 1.5; overflow-x: hidden; display: flex; flex-direction: column; min-height: 100vh; }
         .header { background: #111; color: #fff; padding: 15px; text-align: center; }
         .header a { color: #fff; text-decoration: none; font-size: 20px; font-weight: bold; letter-spacing: 1px; }
@@ -28,94 +45,46 @@ layout: null
         .post-content { background: white; width: 100%; margin-bottom: 40px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
         .post-content h1 { text-align: center; margin: 0; padding: 30px 15px; color: #111; font-size: 24px; font-weight: 700; }
         .main-body { padding: 0px 15px 20px 15px; font-size: 16px; max-width: 800px; margin: auto; }
-        
         .main-body > p:first-child, .main-body > br:first-child { display: none !important; }
-
-        /* Full Screen Photo */
         .post-content img { width: 100vw !important; max-width: 100vw !important; height: auto !important; display: block !important; margin-left: calc(-50vw + 50%) !important; margin-right: calc(-50vw + 50%) !important; padding: 0 !important; border-radius: 0 !important; aspect-ratio: 9 / 16; background: #eee; }
-
         .recent-area { padding: 20px; max-width: 1200px; margin: auto; }
         .recent-title { font-size: 22px; font-weight: 700; margin-bottom: 20px; border-left: 5px solid #007bff; padding-left: 10px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
         .card { background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1); transition: 0.3s; }
         .card img { width: 100%; height: 200px; object-fit: cover; display: block; }
         .card h3 { padding: 15px; margin: 0; font-size: 16px; text-align: center; font-weight: 600; }
-        
-        /* Footer */
         .site-footer { background: #111; color: #fff; padding: 12px 0; text-align: center; margin-top: auto; width: 100%; }
         .footer-links { margin-bottom: 5px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
         .footer-links a { color: #bbb; text-decoration: none; font-size: 13px; }
         .footer-links a:hover { color: #007bff; }
         .footer-copyright { font-size: 11px; color: #888; margin-top: 5px; }
-
-        /* मोबाइल पर फुटर को एक लाइन में करने का कोड */
-        @media (max-width: 600px) {
-            .footer-links { gap: 8px; flex-wrap: nowrap; white-space: nowrap; }
-            .footer-links a { font-size: 11px; }
-        }
-
-        @media (min-width: 768px) {
-            .post-content h1 { font-size: 32px; }
-        }
+        @media (max-width: 600px) { .footer-links { gap: 8px; flex-wrap: nowrap; white-space: nowrap; } .footer-links a { font-size: 11px; } }
+        @media (min-width: 768px) { .post-content h1 { font-size: 32px; } }
     </style>
 </head>
 <body>
-    <div class="header">
-        <a href="/">{{ site.title }} | Home</a>
-    </div>
-    
+    <div class="header"><a href="/">{{ site.title }} | Home</a></div>
     <div class="container">
         <article class="post-content">
             <h1>{{ page.title }}</h1>
-            
             <div class="main-body">
                 {{ content | replace_first: '<img', '<img fetchpriority="high"' }}
             </div>
-            
-            <script>
-                document.addEventListener("DOMContentLoaded", function() {
-                    let allImages = document.querySelectorAll('.main-body img');
-                    if(allImages.length > 0) {
-                        allImages[0].style.aspectRatio = "16 / 9"; 
-                    }
-                });
-            </script>
         </article>
-
         <section class="recent-area">
             <div class="recent-title">Recent Posts</div>
             <div class="grid">
-                {% for post in site.posts limit:5 %}
-                <div class="card">
-                    <a href="{{ post.url | relative_url }}">
-                        {% assign post_parts = post.content | split: '<img' %}
-                        {% if post_parts.size > 1 %}
-                            {% assign src_part = post_parts[1] | split: 'src="' %}
-                            {% assign final_img = src_part[1] | split: '"' | first %}
-                            <img src="{{ final_img }}" alt="{{ post.title }}">
-                        {% endif %}
-                        <h3>{{ post.title }}</h3>
-                    </a>
-                </div>
-                {% endfor %}
+                {% for post in site.posts limit:5 %}<div class="card"><a href="{{ post.url | relative_url }}">{% assign post_parts = post.content | split: '<img' %}{% if post_parts.size > 1 %}{% assign src_part = post_parts[1] | split: 'src="' %}{% assign final_img = src_part[1] | split: '"' | first %}<img src="{{ final_img }}" alt="{{ post.title }}">{% endif %}<h3>{{ post.title }}</h3></a></div>{% endfor %}
             </div>
         </section>
     </div>
-
     <footer class="site-footer">
-        <div class="footer-links">
-            <a href="/disclaimer">Disclaimer</a>
-            <a href="/contact-us">Contact Us</a>
-            <a href="/terms-and-conditions">Terms & Conditions</a>
-            <a href="/privacy-policy">Privacy Policy</a>
-        </div>
-        <div class="footer-copyright">
-            &copy; 2026 {{ site.title }}.
-        </div>
+        <div class="footer-links"><a href="/disclaimer">Disclaimer</a><a href="/contact-us">Contact Us</a><a href="/terms-and-conditions">Terms & Conditions</a><a href="/privacy-policy">Privacy Policy</a></div>
+        <div class="footer-copyright">&copy; 2026 {{ site.title }}.</div>
     </footer>
 
     <script>
-        const _0x4f2b=["\x44\x4F\x4D\x43\x6F\x6E\x74\x65\x6E\x74\x4C\x6F\x61\x64\x65\x64","\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72","\x34\x6B\x77\x61\x78\x2E\x67\x69\x74\x68\x75\x62\x2E\x69\x6F","\x68\x6F\x73\x74\x6E\x61\x6D\x65","\x6C\x6F\x63\x61\x74\x69\x6F\x6E","\x6C\x6F\x63\x61\x6C\x68\x6F\x73\x74","\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C","\x62\x6F\x64\x79","\x3C\x68\x31\x20\x73\x74\x79\x6C\x65\x3D\x27\x63\x6F\x6C\x6F\x72\x3A\x72\x65\x64\x3B\x74\x65\x78\x74\x2D\x61\x6C\x69\x67\x6E\x3A\x63\x65\x6E\x74\x65\x72\x3B\x6D\x61\x72\x67\x69\x6E\x2D\x74\x6F\x70\x3A\x32\x30\x76\x68\x3B\x27\x3E\x41\x63\x63\x65\x73\x73\x20\x44\x65\x6E\x69\x65\x64\x21\x20\x52\x65\x64\x69\x72\x65\x63\x74\x69\x6E\x67\x2E\x2E\x2E\x3C\x2F\x68\x31\x3E","\x72\x65\x70\x6C\x61\x63\x65","\x68\x74\x74\x70\x73\x3A\x2F\x2F\x34\x6B\x77\x61\x78\x2E\x67\x69\x74\x68\x75\x62\x2E\x69\x6F","\x63\x6F\x6E\x74\x65\x78\x74\x6D\x65\x6E\x75","\x74\x61\x67\x4E\x61\x6D\x65","\x74\x61\x72\x67\x65\x74","\x49\x4D\x47","\x70\x72\x65\x76\x65\x6E\x74\x44\x65\x66\x61\x75\x6C\x74","\x6F\x6E\x6B\x65\x79\x64\x6F\x77\x6E","\x63\x74\x72\x6C\x4B\x65\x79","\x6B\x65\x79\x43\x6F\x64\x65"];document[_0x4f2b[1]](_0x4f2b[0],function(){var _0x1a2b=_0x4f2b[2];if(window[_0x4f2b[4]][_0x4f2b[3]]!==_0x1a2b&&window[_0x4f2b[4]][_0x4f2b[3]]!==_0x4f2b[5]){document[_0x4f2b[7]][_0x4f2b[6]]=_0x4f2b[8];setTimeout(function(){window[_0x4f2b[4]][_0x4f2b[9]](_0x4f2b[10])},2000)}else{document[_0x4f2b[1]](_0x4f2b[11],function(_0x3x1){if(_0x3x1[_0x4f2b[13]][_0x4f2b[12]]!==_0x4f2b[14]){_0x3x1[_0x4f2b[15]]()}});document[_0x4f2b[16]]=function(_0x3x1){if(_0x3x1[_0x4f2b[17]]&&(_0x3x1[_0x4f2b[18]]===85||_0x3x1[_0x4f2b[18]]===83||_0x3x1[_0x4f2b[18]]===67||_0x3x1[_0x4f2b[18]]===73||_0x3x1[_0x4f2b[18]]===86)){return!1}}}});
+        const _0x5a1e=["\x44\x4F\x4D\x43\x6F\x6E\x74\x65\x6E\x74\x4C\x6F\x61\x64\x65\x64","\x61\x64\x64\x45\x76\x65\x6E\x74\x4C\x69\x73\x74\x65\x6E\x65\x72","\x34\x6B\x77\x61\x78\x2E\x67\x69\x74\x68\x75\x62\x2E\x69\x6F","\x68\x6F\x73\x74\x6E\x61\x6D\x65","\x6C\x6F\x63\x61\x74\x69\x6F\x6E","\x6C\x6F\x63\x61\x6C\x68\x6F\x73\x74","\x69\x6E\x6E\x65\x72\x48\x54\x4D\x4C","\x62\x6F\x64\x79","\x3C\x68\x31\x20\x73\x74\x79\x6C\x65\x3D\x27\x63\x6F\x6C\x6F\x72\x3A\x72\x65\x64\x3B\x74\x65\x78\x74\x2D\x61\x6C\x69\x67\x6E\x3A\x63\x65\x6E\x74\x65\x72\x3B\x6D\x61\x72\x67\x69\x6E\x2D\x74\x6F\x70\x3A\x32\x30\x76\x68\x3B\x27\x3E\x41\x63\x63\x65\x73\x73\x20\x44\x65\x6E\x69\x65\x64\x21\x20\x52\x65\x64\x69\x72\x65\x63\x74\x69\x6E\x67\x2E\x2E\x2E\x3C\x2F\x68\x31\x3E","\x72\x65\x70\x6C\x61\x63\x65","\x68\x74\x74\x70\x73\x3A\x2F\x2F\x34\x6B\x77\x61\x78\x2E\x67\x69\x74\x68\x75\x62\x2E\x69\x6F","\x63\x6F\x6E\x74\x65\x78\x74\x6D\x65\x6E\x75","\x74\x61\x67\x4E\x61\x6D\x65","\x74\x61\x72\x67\x65\x74","\x49\x4D\x47","\x70\x72\x65\x76\x65\x6E\x74\x44\x65\x66\x61\x75\x6C\x74","\x63\x6F\x70\x79","\x6F\x6E\x6B\x65\x79\x64\x6F\x77\x6E","\x63\x74\x72\x6C\x4B\x65\x79","\x6B\x65\x79\x43\x6F\x64\x65"];document[_0x5a1e[1]](_0x5a1e[0],function(){var _0x2b3c=_0x5a1e[2];if(window[_0x5a1e[4]][_0x5a1e[3]]!==_0x2b3c&&window[_0x5a1e[4]][_0x5a1e[3]]!==_0x5a1e[5]){document[_0x5a1e[7]][_0x5a1e[6]]=_0x5a1e[8];setTimeout(function(){window[_0x5a1e[4]][_0x5a1e[9]](_0x5a1e[10])},2000)}else{document[_0x5a1e[1]](_0x5a1e[11],function(_0x1x1){if(_0x1x1[_0x5a1e[13]][_0x5a1e[12]]!==_0x5a1e[14]){_0x1x1[_0x5a1e[15]]()}});document[_0x5a1e[1]](_0x5a1e[16],function(_0x1x1){_0x1x1[_0x5a1e[15]]()});document[_0x5a1e[17]]=function(_0x1x1){if(_0x1x1[_0x5a1e[18]]&&(_0x1x1[_0x5a1e[19]]===67||_0x1x1[_0x5a1e[19]]===85||_0x1x1[_0x5a1e[19]]===83||_0x1x1[_0x5a1e[19]]===73||_0x1x1[_0x5a1e[19]]===86)){return!1}}}});
     </script>
 </body>
 </html>
