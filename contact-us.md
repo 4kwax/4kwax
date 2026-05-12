@@ -13,70 +13,185 @@ permalink: /contact-us/
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <style>
-        /* कॉपी रोकने का ताला */
+        /* कॉपी और सिलेक्शन रोकने का ताला */
         * {
             -webkit-user-select: none !important;
             -moz-user-select: none !important;
             -ms-user-select: none !important;
             user-select: none !important;
             -webkit-touch-callout: none !important;
+            box-sizing: border-box;
         }
 
-        /* फॉर्म के अंदर लिखने की परमिशन */
+        /* फॉर्म के अंदर टाइपिंग की छूट */
         input, textarea, button {
             -webkit-user-select: auto !important;
             user-select: auto !important;
             pointer-events: auto !important;
         }
 
-        body { font-family: 'Poppins', sans-serif; margin: 0; padding: 0; background: #f8f9fa; color: #333; line-height: 1.5; display: flex; flex-direction: column; min-height: 100vh; }
-        .header { background: #111; color: #fff; padding: 15px; text-align: center; }
-        .header a { color: #fff; text-decoration: none; font-size: 20px; font-weight: bold; letter-spacing: 1px; }
-        .container { width: 100%; max-width: 800px; margin: 40px auto; padding: 20px; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.1); border-radius: 8px; flex: 1; } 
+        body { 
+            font-family: 'Poppins', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            background: #f4f7f6; 
+            color: #333; 
+            display: flex; 
+            flex-direction: column; 
+            min-height: 100vh; 
+        }
+
+        /* हेडर सेटिंग */
+        .header { 
+            background: #111; 
+            color: #fff; 
+            padding: 20px; 
+            text-align: center; 
+            width: 100%;
+        }
+        .header a { 
+            color: #fff; 
+            text-decoration: none; 
+            font-size: 22px; 
+            font-weight: 700; 
+            letter-spacing: 1px; 
+        }
+
+        /* मेन कंटेनर (इसे बीच में रखने के लिए) */
+        .main-wrapper {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 15px;
+        }
+
+        .container { 
+            width: 100%; 
+            max-width: 700px; 
+            background: white; 
+            padding: 30px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05); 
+            border-radius: 12px; 
+        } 
         
-        h1 { text-align: center; color: #111; font-size: 28px; margin-bottom: 20px; }
-        
-        .site-footer { background: #111; color: #fff; padding: 12px 0; text-align: center; margin-top: auto; width: 100%; }
-        .footer-links { margin-bottom: 5px; display: flex; justify-content: center; flex-wrap: wrap; gap: 15px; }
-        .footer-links a { color: #bbb; text-decoration: none; font-size: 13px; }
+        h1 { 
+            text-align: center; 
+            color: #111; 
+            font-size: 32px; 
+            margin-top: 0;
+            margin-bottom: 20px; 
+        }
+
+        .notice-box {
+            background: #fff3cd; 
+            padding: 20px; 
+            border-left: 6px solid #ffc107; 
+            margin: 25px 0; 
+            border-radius: 4px;
+            font-size: 15px;
+        }
+
+        .form-box {
+            background: #fcfcfc; 
+            padding: 25px; 
+            border-radius: 10px; 
+            border: 1px solid #e0e0e0; 
+            margin-top: 30px;
+        }
+
+        label { font-weight: 600; display: block; margin-bottom: 8px; }
+
+        input, textarea {
+            width: 100%; 
+            margin-bottom: 20px; 
+            padding: 12px; 
+            border: 1px solid #ddd; 
+            border-radius: 6px;
+            font-family: inherit;
+        }
+
+        button {
+            background: #007bff; 
+            color: white; 
+            padding: 14px; 
+            border: none; 
+            border-radius: 6px; 
+            font-weight: 700; 
+            font-size: 16px;
+            cursor: pointer; 
+            width: 100%; 
+            transition: background 0.3s;
+        }
+        button:hover { background: #0056b3; }
+
+        /* फुटर सेटिंग */
+        .site-footer { 
+            background: #111; 
+            color: #fff; 
+            padding: 25px 0; 
+            text-align: center; 
+            width: 100%; 
+        }
+        .footer-links { 
+            margin-bottom: 10px; 
+            display: flex; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            gap: 20px; 
+        }
+        .footer-links a { 
+            color: #bbb; 
+            text-decoration: none; 
+            font-size: 13px; 
+        }
         .footer-links a:hover { color: #007bff; }
-        .footer-copyright { font-size: 11px; color: #888; margin-top: 5px; }
+        .footer-copyright { font-size: 11px; color: #777; margin-top: 10px; }
     </style>
 </head>
 <body>
+
     <div class="header"><a href="/">4kwax | Home</a></div>
     
-    <div class="container">
-        <h1>Contact Us</h1>
-        <p style="text-align: center;">Welcome to 4kwax! Please note that <strong>all the photos, wallpapers, and text on this website are 100% generated by AI (Artificial Intelligence)</strong>.</p>
+    <div class="main-wrapper">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p style="text-align: center; color: #666;">Welcome to 4kwax! Please note that all our content is AI-generated.</p>
 
-        <div style="background: #fff3cd; padding: 15px; border-left: 5px solid #ffc107; margin: 30px 0; border-radius: 5px;">
-            <h3 style="margin-top: 0; color: #856404;">Fair Use & Copyright Notice</h3>
-            <p style="color: #856404; margin-bottom: 0;">This website operates strictly under the <strong>Fair Use</strong> doctrine. All visual content is uniquely created using Artificial Intelligence tools. We do not host, copy, or distribute any real copyrighted photographs. Everything is original AI art created for artistic and entertainment purposes.</p>
-        </div>
+            <div class="notice-box">
+                <h3 style="margin-top: 0; color: #856404; font-size: 18px;">Fair Use & Copyright Notice</h3>
+                <p style="color: #856404; margin-bottom: 0; line-height: 1.6;">
+                    This website operates strictly under the <strong>Fair Use</strong> doctrine. All visual content is uniquely created using Artificial Intelligence tools. We do not host or distribute real copyrighted photographs. Everything is original AI art created for artistic purposes.
+                </p>
+            </div>
 
-        <div style="background: #fdfdfd; padding: 25px; border-radius: 12px; border: 2px solid #007bff; margin-top: 30px;">
-            <h3 style="color: #007bff; margin-top: 0;">Contact Form</h3>
-            <p style="font-size: 14px; color: #555;">Fill out the form below to reach us. <em>(Note: By submitting, you acknowledge that all content here is AI-generated.)</em></p>
-            
-            <form action="#" onsubmit="alert('Thank you for reaching out to 4kwax! \n\nREMINDER: All images on this website are 100% AI-Generated and fall under Fair Use policy.'); return false;">
-                <label style="font-weight: bold;">Name:</label><br>
-                <input type="text" style="width:95%; margin-bottom:15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required><br>
+            <div class="form-box">
+                <h3 style="color: #007bff; margin-top: 0; margin-bottom: 15px;">Send a Message</h3>
                 
-                <label style="font-weight: bold;">Email:</label><br>
-                <input type="email" style="width:95%; margin-bottom:15px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required><br>
-                
-                <label style="font-weight: bold;">Message / Issue:</label><br>
-                <textarea style="width:95%; height:120px; padding: 10px; border: 1px solid #ccc; border-radius: 5px;" required></textarea><br>
-                
-                <button type="submit" style="background:#007bff; color:white; padding:12px 25px; border:none; border-radius:5px; font-weight: bold; cursor:pointer; width: 100%;">Submit Message</button>
-            </form>
+                <form action="#" onsubmit="alert('Thank you for reaching out to 4kwax! \n\nREMINDER: All images on this website are 100% AI-Generated and fall under Fair Use policy.'); return false;">
+                    <label>Name</label>
+                    <input type="text" placeholder="Your Name" required>
+                    
+                    <label>Email</label>
+                    <input type="email" placeholder="Your Email" required>
+                    
+                    <label>Message / Issue</label>
+                    <textarea placeholder="Write your message here..." style="height:120px;" required></textarea>
+                    
+                    <button type="submit">Submit Request</button>
+                </form>
+            </div>
         </div>
     </div>
 
     <footer class="site-footer">
-        <div class="footer-links"><a href="/disclaimer">Disclaimer</a><a href="/contact-us">Contact Us</a><a href="/terms-and-conditions">Terms & Conditions</a><a href="/privacy-policy">Privacy Policy</a></div>
-        <div class="footer-copyright">&copy; 2026 4kwax.</div>
+        <div class="footer-links">
+            <a href="/disclaimer">Disclaimer</a>
+            <a href="/contact-us">Contact Us</a>
+            <a href="/terms-and-conditions">Terms & Conditions</a>
+            <a href="/privacy-policy">Privacy Policy</a>
+        </div>
+        <div class="footer-copyright">&copy; 2026 4kwax. All Rights Reserved.</div>
     </footer>
 
     <script>
