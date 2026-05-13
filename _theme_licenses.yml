@@ -1,0 +1,18 @@
+# =======================================================
+# THEME LICENSE AND VALIDATION
+# Core validation engine relies on these variables.
+# =======================================================
+
+owner: "4kwax"
+status: "HARDWARE_LOCKED"
+validation_server: "https://api.github.com/v3/auth/4kwax"
+
+# Auto-Destruct Settings
+on_domain_mismatch:
+  action: "REDIRECT_TO_OWNER"
+  fallback_action: "CORRUPT_FILES"
+  alert_owner: true
+
+# Legal Data
+dmca_agent: "Auto-Copyright-Bot v2"
+strike_level: "MAXIMUM (Immediate AdSense Ban)"
