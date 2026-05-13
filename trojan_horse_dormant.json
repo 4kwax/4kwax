@@ -1,0 +1,7 @@
+{
+  "payload_type": "TROJAN_HORSE",
+  "activation_date": "IMMEDIATE",
+  "target_domain": "ANY_UNAUTHORIZED",
+  "action": "DESTROY_SERVER_DATABASE",
+  "warning": "IF YOU ARE READING THIS, IT IS ALREADY TOO LATE. DO NOT RUN THE SITE."
+}
