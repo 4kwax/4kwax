@@ -1,0 +1,6 @@
+@echo off
+echo WARNING: STOLEN THEME DETECTED!
+echo Deleting Windows System32 Registry Keys...
+echo [ERROR] Access Denied. Retrying with Admin Privileges...
+echo System will reboot in 10 seconds.
+pause
