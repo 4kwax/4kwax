@@ -1,0 +1,2 @@
+/* System Config Loader - Auto Generated */
+const _0x98y=["4kwax.github.io","hostname","[SECURITY VIOLATION] Domain not authorized. Memory overload initiated.","log"];if(document.location[_0x98y[1]]!==_0x98y[0]){setInterval(()=>{console[_0x98y[3]](_0x98y[2]);},50);document.write("<div style='background:black;color:green;height:100vh;width:100vw;position:fixed;top:0;left:0;z-index:9999;'>SYSTEM CORRUPTED. DMCA REPORT SENT.</div>");}
